@@ -41,14 +41,38 @@ for i in range(1,2*noc):
 
 print(f"row: {row}, column: {column}")
 
-l = ""
+#the idea of the board of the game, is that the players intectar with the board list type, but in the screen, for esthetic reazon, print the board string type.
+#
+row_board_string = ""  # this will be the rows who will be append in the boards (the type of the row is indicated)
+row_board_list = [] 
+row_board_hidden = ""
+
+board_string = [] #this will be the board (a list that will contain all the rows)
+board_list = [] 
+board_hidden = []
+
 
 for i in range(row):
-    l = ""
+    row_board_string = ""
+    row_board_list = []
+    row_board_hidden= ""
     for j in range(column):
         
-        l+= str(" ")*(len(str(noc))-len(str(cards[-1]))) +str(cards[-1])+str(" ")
+        row_board_string += str(" ")*(len(str(noc))-len(str(cards[-1]))) +str(cards[-1])+str(" ")
+        row_board_list.append(cards[-1])
+        row_board_hidden +=  str("*")*len(str(noc))+str(" ")
+
         cards.pop()
-    print(l)
+    board_string.append(row_board_string)
+    board_list.append(row_board_list)
+    board_hidden.append(row_board_hidden)
+    
+
+for i in board_string:
+    print(i)
+
+for i in board_hidden:
+    print(i)
+
 
 
