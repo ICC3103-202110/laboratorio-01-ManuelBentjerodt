@@ -46,7 +46,8 @@ l = ""
 for i in range(row):
     l = ""
     for j in range(column):
-        l+=str(cards[-1])+str(" ")
+        
+        l+= str(" ")*(len(str(noc))-len(str(cards[-1]))) +str(cards[-1])+str(" ")
         cards.pop()
     print(l)
 
