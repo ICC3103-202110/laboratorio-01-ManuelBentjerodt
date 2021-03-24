@@ -37,31 +37,24 @@ for i in range(1,2*noc):
 
 print(f"row: {row}, column: {column}")
 
+#Generate the board with cards, and another with the card hidden 
 #the idea of the board of the game, is that the players intectar with the board list type, but in the screen, for esthetic reazon, print the board string type.
 
-board_string = [] #this will be the board (a list that will contain all the rows)
-board_list = [] 
-board_hidden_string = []
-board_hidden_list = []
+board = [] 
+board_hidden = []
 
 for i in range(row):
-    row_board_string = "" #this will be the rows who will be appended in the board list type
-    row_board_list = []
-    row_board_hidden_string = ""
-    row_board_hidden_list = []
+    row_board = []
+    row_board_hidden = []
 
     for j in range(column):
-        row_board_string += str(" ")*(len(str(noc))-len(str(cards[-1]))) +str(cards[-1])+str(" ")
-        row_board_list.append(cards[-1])
-        row_board_hidden_string +=  str("*")*len(str(noc))+str(" ")
-        row_board_hidden_list.append(str("*")*len(str(noc))+str(" "))
+        row_board.append(cards[-1])
+        row_board_hidden.append(str("*")*len(str(noc))+str(" "))
 
         cards.pop()
 
-    board_string.append(row_board_string)
-    board_list.append(row_board_list)
-    board_hidden_string.append(row_board_hidden_string)
-    board_hidden_list.append(row_board_hidden_list)
+    board.append(row_board)
+    board_hidden.append(row_board_hidden)
 
 def ask_for_coordinate():
     cord = input("Enter a tuple 'a,b': ")
@@ -73,9 +66,20 @@ def ask_for_coordinate():
         print("Invalid coordinate, make sure both numbers are positive and equal to or less than the board dimension")
         ask_for_coordinate()
     else:
-        return (a,b)
+        return [a,b]
 
-print(ask_for_coordinate())
+    
+def transform(board): #this function transform 
+    new_board = []
+    
+    for i in board:
+        new_row_board = ""
+
+        for j in i:
+            new_row_board += str(" ")*(len(str(noc))-len(str(j))) +str(j) +str(" ")
+        new_board.append(new_row_board)
+
+    return new_board
 
 
 
