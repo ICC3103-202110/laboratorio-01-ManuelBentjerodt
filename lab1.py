@@ -6,6 +6,9 @@ import random
 #Generate cards
 while True: #user have to write a positive number
     try:
+        print()
+        print("WELCOME TO ¿M?E¿M?O¿R¿I?C¿E? This program support up to 1000 cards")
+        print()
         noc = int(input("Insert number of pairs of cards: ")) 
         print()
     except ValueError:
@@ -24,6 +27,9 @@ for i in range(1,noc+1):
 cards *= 2
 random.shuffle(cards)
 
+repeated = [] #this variable counts the number of the moves in a turn and something more
+
+
 #Generate the Dimensions of the board
 lowest_sum = 4*noc
 
@@ -34,8 +40,6 @@ for i in range(1,2*noc):
                 row = i
                 column = j
                 lowest_sum = i+j
-
-print(f"row: {row}, column: {column}")
 
 #Generate the board with cards, and another with the card hidden 
 #the idea of the board of the game, is that the players intectar with the board list type, but in the screen, for esthetic reazon, print the board string type.
@@ -55,19 +59,7 @@ for i in range(row):
 
     board.append(row_board)
     board_hidden.append(row_board_hidden)
-
-def ask_for_coordinate():
-    cord = input("Enter a tuple 'a,b': ")
-    cord = cord.split(",")
-    a = int(cord[0])
-    b = int(cord[1])
-
-    if a > row or a <= 0 or b > column or b <= 0:
-        print("Invalid coordinate, make sure both numbers are positive and equal to or less than the board dimension")
-        ask_for_coordinate()
-    else:
-        return [a,b]
-
+    
 def transform(board): #this function transform the rows of list type into string type
     new_board = []
     
@@ -80,15 +72,65 @@ def transform(board): #this function transform the rows of list type into string
 
     return new_board
 
-def flip_card_and_show(l): #l parameter will be the return of ask_for_coordinate function,
+def ask_for_coordinate(): #thi function asks to user the coordinate of the board staring whit 1
+#11 12 13 ..
+#21 22 23 ..
+#31 32 33 ..
+#.. .. .. ..
+    cord = input("Enter a tuple 'a,b': ")
+    cord_ = cord
+    cord = cord.split(",")
+    
+    
+    a = int(cord[0])
+    b = int(cord[1])
+
+    if cord_ in repeated:
+        print("Coordinite in use")
+        return ask_for_coordinate()
+
+    else:
+
+        if (a > row or a <= 0 or b > column or b <= 0):
+            print("Invalid coordinate, make sure both numbers are positive and equal to or less than the board dimension")
+            return ask_for_coordinate()
+
+        else:
+            repeated.append(cord_)
+            return [a,b]
+     
+
+def flip_card_and_show(l): #l parameter will be the return of ask_for_coordinate function
+    print("____________________________________________________________")
     card = board[l[0]-1][l[1]-1]
-    board_hidden[l[0]-1][l[1]-1] = str(card) +str(" ")
+    board_hidden[l[0]-1][l[1]-1] = str(" ")*(len(str(noc))-len(str(card))) +str(card) +str(" ")
+    round_cards.append(card)
 
     for i in transform(board_hidden):
         print(i)
 
-    board_hidden[l[0]-1][l[1]-1] = str("*")*len(str(noc)) #this command makes that the board state equals 
-    
-    
+round_cards = []
 
-flip_card_and_show(ask_for_coordinate())
+def player_move(n):
+    print("____________________________________________________________")
+    print(f"Player {n}")
+    print()
+    print(f"There are {row} ROWS and {column} Columnes")
+
+    for i in transform(board_hidden):
+        print(i)
+
+    flip_card_and_show(ask_for_coordinate())
+    flip_card_and_show(ask_for_coordinate()) 
+
+def main():
+    player_1 = 0 #points
+    player_2 = 0
+
+    l = [1,2]
+    for i in l:
+        player_move(i)
+        print(round_cards)
+        
+main()
+ 
