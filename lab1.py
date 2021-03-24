@@ -68,8 +68,7 @@ def ask_for_coordinate():
     else:
         return [a,b]
 
-    
-def transform(board): #this function transform 
+def transform(board): #this function transform the rows of list type into string type
     new_board = []
     
     for i in board:
@@ -81,7 +80,15 @@ def transform(board): #this function transform
 
     return new_board
 
+def flip_card_and_show(l): #l parameter will be the return of ask_for_coordinate function,
+    card = board[l[0]-1][l[1]-1]
+    board_hidden[l[0]-1][l[1]-1] = str(card) +str(" ")
 
+    for i in transform(board_hidden):
+        print(i)
 
+    board_hidden[l[0]-1][l[1]-1] = str("*")*len(str(noc)) #this command makes that the board state equals 
+    
+    
 
-
+flip_card_and_show(ask_for_coordinate())
