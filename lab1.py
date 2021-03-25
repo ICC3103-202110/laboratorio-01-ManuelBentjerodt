@@ -31,9 +31,9 @@ repeated_cord = [] #this list appends the coordinates in move (2 times player fl
 repeated_val = [] #this list appends the value of the coordinate. It's temporary
 correct_fliped = [] #this list appends the card they cant be played again. It's permanent
 
+end = 0 #if end == number of pair cards, game ends
 
 points = [0,0] #points[0] are the points of player 1, and points[1] are the points of player 2
-
 
 #Generate the Dimensions of the board
 lowest_sum = 4*noc
@@ -102,7 +102,6 @@ def ask_for_coordinate(): #thi function asks to user the coordinate of the board
             repeated_cord.append(cord_)
             return [a,b]
      
-
 def flip_card_and_show(l): #function flip a card and show the board actualiced, l parameter will be the return of ask_for_coordinate function
     print("____________________________________________________________")
     card = board[l[0]-1][l[1]-1]
@@ -144,16 +143,19 @@ def player_move(n):  #This functions makes player have to flipp card twice,
         board_hidden[c-1][d-1] = str(" ")*(len(str(noc))) + str(" ")
         
         points[n-1] += 1
+        global end
+        end += 1
+        if end == noc:
+            return True
         return player_move(n)
    
     elif board[a-1][b-1] != board[c-1][d-1]: #in the other hand, if user flipp 2 differents cards, return again those cards in the board (hidden)
         board_hidden[a-1][b-1] = str("*")*(len(str(noc))) + str(" ")
         board_hidden[c-1][d-1] = str("*")*(len(str(noc))) + str(" ")
     
-
 def main(): #this function is the base of the game, switch between players and call other fuctions.
     #this hidden part of the code shows the board with all the cards flipped,
-    """
+    
     print()                                 
     print("The board filpped is:") 
     print()
@@ -161,10 +163,31 @@ def main(): #this function is the base of the game, switch between players and c
         print(i)
 
     print()
-    """ 
+    
     l = [1,2]*noc**noc
     for i in l:
         player_move(i)
-        
+        if end == noc:
+            if points[0] > points[1]:
+                print("The game is over PLAYER 1 WINS!")
+                print()
+                print(f"Player 1    Points: {points[0]}")
+                print(f"Player 2    Points: {points[1]}")
+                break
+            elif points[0] < points[1]:
+                print("The game is over PLAYER 2 WINS!")
+                print()
+                print(f"Player 1    Points: {points[0]}")
+                print(f"Player 2    Points: {points[1]}")
+                break
+            else:
+                print("The game is over BOTH PLAYERS ARE WINNERS!")
+                print()
+                print(f"Player 1    Points: {points[0]}")
+                print(f"Player 2    Points: {points[1]}")
+                break
+        else:
+            pass
+
 main() #start the game
  
