@@ -3,21 +3,24 @@
 
 import random
 
+print()
+print("WELCOME TO ¿M?E¿M?O¿R¿I?C¿E?")
+
 #Generate cards
 while True: #user have to write a positive number
     try:
         print()
-        print("WELCOME TO ¿M?E¿M?O¿R¿I?C¿E? This program support up to 1000 cards")
-        print()
         noc = int(input("Insert number of pairs of cards: ")) 
         print()
+
     except ValueError:
-        print("You must write a number: ") 
         print()
-        continue
-    if noc <= 0:
         print("You must write a positive number: ")
-        print()
+        continue
+
+    if noc <= 1:
+        print("You must write a positive number: ")
+        
     else:
         break
 
@@ -76,20 +79,36 @@ def transform(board): #this function transform the rows of list type into string
 
     return new_board
 
-def ask_for_coordinate(): #thi function asks to user the coordinate of the board staring whit 1
+def ask_for_coordinate(): #this function asks to user the coordinate of the board staring whit 1
 #11 12 13 ..
 #21 22 23 ..
 #31 32 33 ..
 #.. .. .. ..
-    cord = input("Enter a tuple 'a,b': ")
-    cord_ = cord
-    cord = cord.split(",")
-    
-    a = int(cord[0])
-    b = int(cord[1])
+    while True: #user have to write a positive number
+        try:
+            print()
+            cord = input(f"Enter a tuple less than or equal to '{row},{column}': ")
+            cord_ = cord
+            cord = cord.split(",")
+
+            if len(cord) < 2:
+                cord.append("a")
+            
+            a = int(cord[0])
+            b = int(cord[1])
+
+        except ValueError:
+            print()
+            print("Invalid coordinate, make sure both numbers are positive and equal to or less than the board dimension")
+            continue
+            
+        else:
+            break
+
+    print()
 
     if cord_ in repeated_cord or cord_ in correct_fliped:  #these are the conditions that makes player cant insert a coordinate actually used,
-        print("Coordinite in use or unable")               #a card actually flipped succefuy or a coordinate out of the board
+        print("Coordinate in use or unable")               #a card actually flipped succefuy or a coordinate out of the board
         return ask_for_coordinate()
 
     else:
@@ -115,7 +134,7 @@ def player_move(n):  #This functions makes player have to flipp card twice,
     print("____________________________________________________________")
     print(f"Player {n}    Points: {points[n-1]}")
     print()
-    print(f"There are {row} ROWS and {column} Columnes")
+    print(f"There are {row} ROWS and {column} Columns")
 
     n=n
 
@@ -155,39 +174,57 @@ def player_move(n):  #This functions makes player have to flipp card twice,
     
 def main(): #this function is the base of the game, switch between players and call other fuctions.
     #this hidden part of the code shows the board with all the cards flipped,
-    
-    print()                                 
-    print("The board filpped is:") 
-    print()
-    for i in transform(board):
-        print(i)
+    txt = input("Show flipped board before starting? y/n: ")
 
-    print()
+    if  txt != str("y") and txt != str("n"):
+        while txt != str("y") and txt != str("n"):
+            txt = input("Show flipped board before starting? y/n: ")  
+            print()
+
+    if txt == "y":
+        print()                                 
+        print("The board filpped is:") 
+        print()
+        for i in transform(board):
+            print(i)
+    else:
+        pass
     
-    l = [1,2]*noc**noc
+    l = [1,2]
+
     for i in l:
         player_move(i)
         if end == noc:
+            print()
             if points[0] > points[1]:
-                print("The game is over PLAYER 1 WINS!")
+                print("The game is over ¡PLAYER 1 WINS!")
                 print()
                 print(f"Player 1    Points: {points[0]}")
                 print(f"Player 2    Points: {points[1]}")
+                print()
                 break
             elif points[0] < points[1]:
-                print("The game is over PLAYER 2 WINS!")
+                print("The game is over ¡PLAYER 2 WINS!")
                 print()
                 print(f"Player 1    Points: {points[0]}")
                 print(f"Player 2    Points: {points[1]}")
+                print()
                 break
             else:
-                print("The game is over BOTH PLAYERS ARE WINNERS!")
+                print("The game is over ¡BOTH PLAYERS ARE WINNERS!")
                 print()
                 print(f"Player 1    Points: {points[0]}")
                 print(f"Player 2    Points: {points[1]}")
+                print()
                 break
         else:
             pass
 
+        if i%2 == 0:
+            l.append(1)
+            
+        else:
+            l.append(0)
+        
 main() #start the game
  
